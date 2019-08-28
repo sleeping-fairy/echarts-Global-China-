@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>国网华中map</title>
+  <!-- <link rel="stylesheet" href="./css/"> -->
+  <script src="./js/jquery.js"></script>
+  <script src="./js/echarts.min.js"></script>
+  <script src="./js/map.js"></script>
+</head>
+<body>
+    <div id="main" style="width: 447px; height:505px; background:pink;"></div>
+    
+
+  <script type="text/javascript">
+  // 随机数据
+  var data = [
+              {"name":"湖南省","power":"12306","increase":"0.6%","time":"2019-07-23"},
+              {"name":"湖北省","power":"10025","increase":"0.7%","time":"2019-07-24"},
+              {"name":"河南省","power":"9700","increase":"0.8%","time":"2019-07-25"},
+              {"name":"江西省","power":"11200","increase":"0.9%","time":"2019-07-26"}
+             ];
+
+
+    echarts.registerMap('e-power', centralJson);
+        // 基于准备好的dom，初始化echarts实例
+    var chart = echarts.init(document.getElementById('main'));
+    var option={
+        tooltip:{
+          trigger: 'item',
+          formatter: function(params) {
+            var res=params.data.name+"<br/>"+"最大负荷："+params.data.power+"<br/>"+"同比增长："+params.data.increase+"<br/>"+"发生日期："+ params.data.time;
+                return res
+          }
+         },
+        series: [
+           {
+             type: 'map', 
+             map: 'e-power',
+             name:'同比增长',
+             label: {
+                normal: {
+                  show: true
+                },
+                emphasis: {
+                  show: true
+                }
+              },
+             data:data
+            }
+        ]
+    }
+chart.setOption(option);
+chart.on('click', function(params,that){
+		console.log(params,that)
+	})
+</script>
+
+</body>
+
+</html>
